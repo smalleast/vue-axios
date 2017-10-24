@@ -64,11 +64,11 @@
           params: inData
         });
       },
-      put: function (inName, inData) {
-        return axios.put(inName, inData);
+      put: function (inName) {
+        return axios.put(inName);
       },
-      delete: function (inName, inData) {
-        return axios.delete(inName, inData);
+      delete: function (inName) {
+        return axios.delete(inName);
       }
     }
   });
