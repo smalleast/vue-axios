@@ -60,16 +60,23 @@
         return axios.post(inName, inData);
       },
       get: function (inName, inData) {
-        var axiosUrl = !!inData ? inName + '/' + inData : inName;
-        return axios.get(inName);
+        if (typeof (inData) === "object") {
+          return axios.get(inName, {
+            params: inData
+          });
+        } else {
+          var axiosUrl = !!inData ? inName + '/' + inData : inName;
+          return axios.get(axiosUrl);
+        }
+
       },
       put: function (inName, inData) {
         var axiosUrl = !!inData ? inName + '/' + inData : inName;
-        return axios.put(inName);
+        return axios.put(axiosUrl);
       },
       delete: function (inName, inData) {
         var axiosUrl = !!inData ? inName + '/' + inData : inName;
-        return axios.delete(inName);
+        return axios.delete(axiosUrl);
       }
     }
   });
