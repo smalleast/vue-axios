@@ -63,6 +63,12 @@
         return axios.get(inName, {
           params: inData
         });
+      },
+      put: function (inName, inData) {
+        return axios.put(inName, inData);
+      },
+      delete: function (inName, inData) {
+        return axios.delete(inName, inData);
       }
     }
   });
