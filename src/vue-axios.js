@@ -7,7 +7,7 @@
 
   var Axios = nx.declare('nxAxios', {
     methods: {
-      axios:axios,
+      axios: axios,
       init: function () {
         this.setDefaults();
         this.setHeaders();
@@ -15,9 +15,9 @@
       },
       setDefaults: function (inOptions) {
         var options = inOptions || {
-            baseURL: './',
-            timeout: 30000
-          };
+          baseURL: './',
+          timeout: 30000
+        };
         nx.mix(axios.defaults, options);
       },
       setHeaders: function (inOptions) {
@@ -52,7 +52,7 @@
       isSuccess: function (inResponse) {
         return !inResponse.errorCode;
       },
-      all: function(inOptions){
+      all: function (inOptions) {
         return axios.all(inOptions);
       },
       post: function (inName, inData) {
@@ -60,14 +60,15 @@
         return axios.post(inName, inData);
       },
       get: function (inName, inData) {
-        return axios.get(inName, {
-          params: inData
-        });
+        var axiosUrl = !!inData ? inName + '/' + inData : inName;
+        return axios.get(inName);
       },
-      put: function (inName) {
+      put: function (inName, inData) {
+        var axiosUrl = !!inData ? inName + '/' + inData : inName;
         return axios.put(inName);
       },
-      delete: function (inName) {
+      delete: function (inName, inData) {
+        var axiosUrl = !!inData ? inName + '/' + inData : inName;
         return axios.delete(inName);
       }
     }
