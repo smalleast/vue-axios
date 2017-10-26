@@ -11,6 +11,7 @@
       init: function () {
         this.setDefaults();
         this.setHeaders();
+        this.setRequestInterceptor();
         this.setResponseInterceptor();
       },
       setDefaults: function (inOptions) {
@@ -20,16 +21,19 @@
         };
         nx.mix(axios.defaults, options);
       },
-      setHeaders: function (inOptions) {
-        var options = inOptions || {};
-        nx.mix(axios.defaults.headers, inOptions, {
-          common: nx.mix({
-            'Power-By': 'smalleast/vue-xiaodong',
-            'Content-Type': 'application/x-www-form-urlencoded'
-          }, options.common)
+      setHeaders: function () {
+        nx.mix(axios.defaults.headers.common, {
+          'Content-Type': 'application/x-www-form-urlencoded'
         });
       },
       setRequestInterceptor: function () {
+        var self = this;
+        axios.interceptors.request.use(function (request) {
+          return self.authorization(request);
+        }, function (error) {
+          self.error(error);
+          nx.error(error);
+        });
       },
       setResponseInterceptor: function () {
         var self = this;
@@ -39,6 +43,9 @@
           self.error(error);
           nx.error(error);
         });
+      },
+      authorization: function (inRequest) {
+        return inRequest;
       },
       success: function (inResponse) {
         return this.toData(inResponse);
@@ -56,12 +63,12 @@
         return axios.all(inOptions);
       },
       post: function (inName, inData) {
-        //return axios.post(inName, nx.param(inData));
         return axios.post(inName, inData);
       },
-      get: function (inName, inData) {
+      get: function (inName, inData, inId) {
         if (typeof (inData) === "object") {
-          return axios.get(inName, {
+          var idStr = !!inId ? inName + '/' + inId : inName;
+          return axios.get(idStr, {
             params: inData
           });
         } else {
