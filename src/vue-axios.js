@@ -68,7 +68,9 @@
       get: function (inName, inData, inId) {
         if (typeof (inData) === "object") {
           var idStr = !!inId ? inName + '/' + inId : inName;
-          return axios.get(idStr, inData);
+          return axios.get(idStr, {
+            params: inData
+          });
         } else {
           var axiosUrl = !!inData ? inName + '/' + inData : inName;
           return axios.get(axiosUrl);
